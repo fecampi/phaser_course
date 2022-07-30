@@ -1,11 +1,11 @@
 # phaser_course
 
-Ferramante cli
+- Ferramante cli
 npm install -g phaser3-cli-gamma
 
-Só phaser 
-nom init -y
+ - Só phaser 
+npm init -y
 npm i phaser
 
-Nome projeto
+- Novo projeto
 pg --new phaser_course
