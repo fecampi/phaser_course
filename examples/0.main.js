@@ -1,5 +1,3 @@
-import Bootloader from './scenes/Bootloader.js'
-
 const config = {
     title: 'Phaser course',
     url: 'http://phaser..',
@@ -20,8 +18,26 @@ const config = {
 
 
 
-    scene: [Bootloader]
+    scene: {init, preload,create,update}
 
 }
 const game = new Phaser.Game(config)
+
+function init() {
+    console.log('init')
+}
+
+function preload() {
+    console.log('preload')
+}
+
+function create() {
+    console.log('create')
+}
+
+function update(time, delta)  {
+console.log('update:', time, delta)
+}
+
+
 
