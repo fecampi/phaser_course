@@ -1,18 +1,37 @@
+class Button {
+    constructor(x, y, label, scene, callback) {
+        const button = scene.add.text(x, y, label)
+            .setOrigin(0.5)
+            .setPadding(10)
+            .setStyle({ backgroundColor: '#111' })
+            .setInteractive({ useHandCursor: true })
+            .on('pointerdown', () => callback())
+            .on('pointerover', () => button.setStyle({ fill: '#f39c12' }))
+            .on('pointerout', () => button.setStyle({ fill: '#FFF' }));
+    }
+}
+
 class ImageContainer extends Phaser.GameObjects.Container {
-    constructor(scene, name, nameLocation) {
+    constructor(scene, name) {
         super(scene);
         this.scene = scene;
         this.name = name
-        this.nameLocation = nameLocation
         this.scene.load.path = './assets/'
-        this.scene.load.image([name, nameLocation])
+        this.scene.load.image(name)
+        this.border = 10
     }
 
 
     create(x, y) {
-        this.cubix = this.scene.add.image(x, y, this.name)
+        const imageMovie = this.scene.add.image(0,0, this.name)
+        const rectangle = this.scene.add.rectangle(-this.border/2, 0, imageMovie.width+this.border, imageMovie.height+this.border, 0x6666ff);
+        const container = this.scene.add.container(x, y);
+        container.add([
+            rectangle,
+            imageMovie
+        ]);
         this.timeline = this.scene.tweens.timeline({
-            targets: [this.cubix],
+            targets: [container],
             duration: 1000,
             totalDuration: 4000,
             paused: true,
@@ -26,37 +45,49 @@ class ImageContainer extends Phaser.GameObjects.Container {
                 },
             ]
         });
+
+
         this.timeline.play();
     }
+
+
 }
+
+
+
+class add {
+    static button(x, y, label, scene, callback) {
+        return new Button(x, y, label, scene, callback)
+    }
+
+    static imageContainer(scene, name) {
+        return new ImageContainer(scene, name);
+    }
+}
+
+
+
 
 
 class Bootloader extends Phaser.Scene {
     constructor() {
-        super('Bootloader')
+        super('Bootloader');
     }
-
     init() {
-        console.log('Scene Bootloader')
+        console.log('Scene Bootloader');
     }
-
     preload() {
-        this.image = new ImageContainer(this, 'cubix', 'cubix_fondo');
+        this.image = add.imageContainer(this, 'movies/Rectangle0');
 
     }
-
-
     create() {
+        this.button = add.button(500, 200, 'Iniciar', this, () => console.log('Iniciar'))
         this.image.create(200, 200)
 
     }
-
-
     update(time, delta) {
-        // console.log(time, delta)
 
     }
-
 }
 
-export default Bootloader
+export default Bootloader;
